@@ -20,22 +20,21 @@
  *
  */
 
-// Prevents processing this includes file for the second time.
-#ifndef SERIALIZER_OBJECT_MQH
-#define SERIALIZER_OBJECT_MQH
+/**
+ * @file
+ * Serializable interface.
+ */
 
-// Includes.
-#include "DictBase.mqh"
-#include "Object.mqh"
-#include "Serializer.mqh"
-#include "SerializerConverter.mqh"
-#include "SerializerNode.mqh"
-
-class Log;
-
-class SerializerObject {
- public:
-  static string Stringify(SerializerNode* _root) { return "<not yet implemented>"; }
-};
-
+#ifndef __MQL__
+// Allows the preprocessor to include a header file when it is needed.
+#pragma once
 #endif
+
+#include "SerializerNode.enum.h"
+
+class Serializer;
+
+class Serializable {
+ public:
+  virtual SerializerNodeType Serialize(Serializer &s) = 0;
+};

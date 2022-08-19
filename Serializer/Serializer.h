@@ -28,9 +28,9 @@
 #include "Convert.mqh"
 #include "Serializer.define.h"
 #include "Serializer.enum.h"
-#include "SerializerNode.mqh"
-#include "SerializerNodeIterator.mqh"
-#include "SerializerNodeParam.mqh"
+#include "SerializerNode.h"
+#include "SerializerNodeIterator.h"
+#include "SerializerNodeParam.h"
 #include "Terminal.define.h"
 
 #define SERIALIZER_DEFAULT_FP_PRECISION 8

@@ -31,8 +31,8 @@
 #include "Matrix.mqh"
 #include "MiniMatrix.h"
 #include "Object.mqh"
-#include "SerializerConverter.mqh"
-#include "SerializerNode.mqh"
+#include "SerializerConverter.h"
+#include "SerializerNode.h"
 
 struct CsvTitle {
   int column_index;

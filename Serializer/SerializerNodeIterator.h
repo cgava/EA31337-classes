@@ -24,8 +24,8 @@
 #ifndef JSON_ITERATOR_MQH
 #define JSON_ITERATOR_MQH
 
-#include "Serializer.mqh"
-#include "SerializerNode.mqh"
+#include "Serializer.h"
+#include "SerializerNode.h"
 
 class SerializerNode;
 class Serializer;

@@ -27,8 +27,8 @@
 // Includes.
 #include "DictBase.mqh"
 #include "Object.mqh"
-#include "Serializer.mqh"
-#include "SerializerNode.mqh"
+#include "Serializer.h"
+#include "SerializerNode.h"
 
 class Log;
 

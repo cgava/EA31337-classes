@@ -27,7 +27,7 @@
 // Includes.
 #include "Math.extern.h"
 #include "SerializerNode.enum.h"
-#include "SerializerNodeParam.mqh"
+#include "SerializerNodeParam.h"
 #include "Terminal.define.h"
 
 class SerializerNode {

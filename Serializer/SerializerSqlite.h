@@ -26,8 +26,8 @@
 
 // Includes.
 #include "Database.mqh"
-#include "SerializerConverter.mqh"
-#include "SerializerCsv.mqh"
+#include "SerializerConverter.h"
+#include "SerializerCsv.h"
 
 class SerializerSqlite {
  public:

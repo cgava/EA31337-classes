@@ -28,8 +28,8 @@
 #include "DictBase.mqh"
 #include "Object.mqh"
 #include "Serializer.enum.h"
-#include "Serializer.mqh"
-#include "SerializerNode.mqh"
+#include "Serializer.h"
+#include "SerializerNode.h"
 #include "String.extern.h"
 
 class Log;
