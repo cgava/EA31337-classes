@@ -20,6 +20,11 @@
  *
  */
 
+/**
+ * @file Log.mqh
+ * @brief Log class to provide logging functionality.
+*/
+
 // Includes.
 #include "Array.mqh"
 #include "Collection.mqh"
@@ -46,7 +51,8 @@ enum ENUM_LOG_LEVEL {
 };
 
 /**
- * Class to provide logging functionality.
+ * @class Log
+ * @brief Class to provide logging functionality.
  */
 class Log : public Object {
  private:

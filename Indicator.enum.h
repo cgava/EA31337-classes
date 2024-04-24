@@ -21,8 +21,8 @@
  */
 
 /**
- * @file
- * Includes Indicator's enums.
+ * @file Indicator.enum.h
+ * @brief CGA Declaration of Indicators enumerations
  */
 
 #ifndef __MQL__
@@ -33,14 +33,14 @@
 // Includes.
 #include "Indicator.define.h"
 
-/* Indicator actions. */
+/** Indicator actions : Clear cache, Sets buffers' values  */
 enum ENUM_INDICATOR_ACTION {
   INDI_ACTION_CLEAR_CACHE,  // Clear cache.
   INDI_ACTION_SET_VALUE,    // Sets buffers' values (from second argument to the last one).
   FINAL_INDICATOR_ACTION_ENTRY
 };
 
-/* Define type of */
+/** Define the type of indicators INDI_NONE, INDI_AC, INDI_MA.... */
 enum ENUM_INDICATOR_TYPE {
   INDI_NONE = 0,                        // (None)
   INDI_AC,                              // Accelerator Oscillator
@@ -132,29 +132,35 @@ enum ENUM_INDICATOR_TYPE {
   FINAL_INDICATOR_TYPE_ENTRY
 };
 
-/* Defines type of source data for */
+/** Defines type of source data for indicator. 
+ *  Built-in, Chart calculation, iCustom, OnIndicator, OnCalculate, Math-based indicator
+*/
 enum ENUM_IDATA_SOURCE_TYPE {
-  IDATA_BUILTIN = 0,     // Platform built-in
-  IDATA_CHART,           // Chart calculation
-  IDATA_ICUSTOM,         // iCustom: Custom indicator file
-  IDATA_ICUSTOM_LEGACY,  // iCustom: Custom, legacy, provided by MT indicator file
-  IDATA_INDICATOR,       // OnIndicator: Another indicator as a source of data
-  IDATA_ONCALCULATE,     // OnCalculate: Custom calculation function
-  IDATA_MATH             // Math-based indicator
+  IDATA_BUILTIN = 0,     ///< Platform built-in
+  IDATA_CHART,           ///< Chart calculation
+  IDATA_ICUSTOM,         ///< iCustom: Custom indicator file
+  IDATA_ICUSTOM_LEGACY,  ///< iCustom: Custom, legacy, provided by MT indicator file
+  IDATA_INDICATOR,       ///< OnIndicator: Another indicator as a source of data
+  IDATA_ONCALCULATE,     ///< OnCalculate: Custom calculation function
+  IDATA_MATH             ///< Math-based indicator
 };
 
-/* Defines range value data type for indicator storage. */
+/** Defines the kind of value range for indicator.
+ *  Arrow, Binary, Bitwise, Mixed, Price, Range, Unknown
+*/
 enum ENUM_IDATA_VALUE_RANGE {
-  IDATA_RANGE_ARROW,    // Value is non-zero on signal.
-  IDATA_RANGE_BINARY,   // E.g. 0 or 1.
-  IDATA_RANGE_BITWISE,  // Bitwise
-  IDATA_RANGE_MIXED,
-  IDATA_RANGE_PRICE,  // Values represent price.
-  IDATA_RANGE_RANGE,  // E.g. 0 to 100.
-  IDATA_RANGE_UNKNOWN
+  IDATA_RANGE_ARROW,    ///< Value is non-zero on signal.
+  IDATA_RANGE_BINARY,   ///< E.g. 0 or 1.
+  IDATA_RANGE_BITWISE,  ///< Bitwise
+  IDATA_RANGE_MIXED,    ///< Mixed ??
+  IDATA_RANGE_PRICE,    ///< Values represent price.
+  IDATA_RANGE_RANGE,    ///< E.g. 0 to 100.
+  IDATA_RANGE_UNKNOWN   ///< Unknown
 };
 
-// Indicator line identifiers used in ADX and ADXW
+/** Indicator line identifiers used in ADX and ADXW indicators.
+ * Main, +DI, -DI 
+*/
 enum ENUM_INDI_ADX_LINE {
 #ifdef __MQL4__
   LINE_MAIN_ADX = MODE_MAIN,    // Base indicator line.
@@ -168,7 +174,7 @@ enum ENUM_INDI_ADX_LINE {
   FINAL_INDI_ADX_LINE_ENTRY,
 };
 
-/* Define indicator index. */
+/** Define indicator index (CURRR, PREV, PPREV) */
 enum ENUM_INDICATOR_INDEX {
   CURR = 0,
   PREV = 1,
@@ -176,7 +182,7 @@ enum ENUM_INDICATOR_INDEX {
   FINAL_ENUM_INDICATOR_INDEX = 3  // Should be the last one. Used to calculate the number of enum items.
 };
 
-/* Indicator line identifiers used in Envelopes and Fractals */
+/** Indicator line identifiers used in Envelopes and Fractals indicators. */
 enum ENUM_LO_UP_LINE {
 #ifdef __MQL4__
   LINE_UPPER = MODE_UPPER,  // Upper line.
@@ -219,7 +225,9 @@ enum ENUM_SIGNAL_LINE {
 enum ENUM_APPLIED_VOLUME { VOLUME_TICK = 0, VOLUME_REAL = 1 };
 #endif
 
-/* Indicator entry flags. */
+/** Indicator entry flags, as Bitfield
+ * None, Bitwise, Doubled, Expired, Real, Price, Unsigned, Valid, Insufficient data
+ */
 enum INDICATOR_ENTRY_FLAGS {
   INDI_ENTRY_FLAG_NONE = 0 << 0,
   INDI_ENTRY_FLAG_IS_BITWISE = 1 << 0,

@@ -24,6 +24,11 @@
 #ifndef MARKET_MQH
 #define MARKET_MQH
 
+
+/** @file Market.mqh
+ *  @brief class to store Market information.
+ */
+
 // Forward declaration.
 class Market;
 class SymbolInfo;
@@ -36,8 +41,9 @@ class SymbolInfo;
 #include "Serializer.mqh"
 #include "SymbolInfo.mqh"
 
-// Structs.
-// Market info.
+/** @struct MarketData
+ *  @brief Struct to store Market information.
+ */
 struct MarketData {
   int empty;
   // Serializers.
@@ -45,8 +51,8 @@ struct MarketData {
   SerializerNodeType Serialize(Serializer &_s) { return SerializerNodeObject; }
 };
 
-/**
- * Class to provide market information.
+/** @class Market
+ *  @brief Class to provide market information.
  */
 class Market : public SymbolInfo {
  protected:
@@ -68,10 +74,19 @@ class Market : public SymbolInfo {
 
   /* Functional methods */
 
+
+
   /**
    * Refresh data in pre-defined variables and series arrays.
    *
    * @see http://docs.mql4.com/series/refreshrates
+   * 
+   * Expert Advisors and scripts operate with their own copy of history data.
+   * Data of the current symbol are copied at the first launch of the expert
+   * or script. At each subsequent launch of the expert (remember that script
+   * is executed only once and does not depend on incoming ticks), the initial
+   * copy will be updated. One or more new ticks can income while the Expert
+   * Advisor or script is operating, and data can become out of date.
    */
   static bool RefreshRates() {
 // In MQL5 returns true for backward compatibility.
@@ -82,11 +97,45 @@ class Market : public SymbolInfo {
 #endif
   }
 
+
+
+
   /**
    * Returns market data about securities.
    *
-   * @docs
-   * - https://docs.mql4.com/constants/environment_state/marketinfoconstants
+   * @see https://docs.mql4.com/constants/environment_state/marketinfoconstants
+   * 
+   * <pre>
+   * Print("Symbol                                      =", Symbol());
+   * Print("Low day price                               =", MarketInfo(Symbol(), MODE_LOW));
+   * Print("High day price                              =", MarketInfo(Symbol(), MODE_HIGH));
+   * Print("The last incoming tick time                 =", MarketInfo(Symbol(), MODE_TIME));
+   * Print("Last incoming bid price                     =", MarketInfo(Symbol(), MODE_BID));
+   * Print("Last incoming ask price                     =", MarketInfo(Symbol(), MODE_ASK));
+   * Print("Point size in the quote currency            =", MarketInfo(Symbol(), MODE_POINT));
+   * Print("Digits after decimal point                  =", MarketInfo(Symbol(), MODE_DIGITS));
+   * Print("Spread value in points                      =", MarketInfo(Symbol(), MODE_SPREAD));
+   * Print("Stop level in points                        =", MarketInfo(Symbol(), MODE_STOPLEVEL));
+   * Print("Lot size in the base currency               =", MarketInfo(Symbol(), MODE_LOTSIZE));
+   * Print("Tick value in the deposit currency          =", MarketInfo(Symbol(), MODE_TICKVALUE));
+   * Print("Tick size in points                         =", MarketInfo(Symbol(), MODE_TICKSIZE));
+   * Print("Swap of the buy order                       =", MarketInfo(Symbol(), MODE_SWAPLONG));
+   * Print("Swap of the sell order                      =", MarketInfo(Symbol(), MODE_SWAPSHORT));
+   * Print("Market starting date (for futures)          =", MarketInfo(Symbol(), MODE_STARTING));
+   * Print("Market expiration date (for futures)        =", MarketInfo(Symbol(), MODE_EXPIRATION));
+   * Print("Trade is allowed for the symbol             =", MarketInfo(Symbol(), MODE_TRADEALLOWED));
+   * Print("Minimum permitted amount of a lot           =", MarketInfo(Symbol(), MODE_MINLOT));
+   * Print("Step for changing lots                      =", MarketInfo(Symbol(), MODE_LOTSTEP));
+   * Print("Maximum permitted amount of a lot           =", MarketInfo(Symbol(), MODE_MAXLOT));
+   * Print("Swap calculation method                     =", MarketInfo(Symbol(), MODE_SWAPTYPE));
+   * Print("Profit calculation mode                     =", MarketInfo(Symbol(), MODE_PROFITCALCMODE));
+   * Print("Margin calculation mode                     =", MarketInfo(Symbol(), MODE_MARGINCALCMODE));
+   * Print("Initial margin requirements for 1 lot       =", MarketInfo(Symbol(), MODE_MARGININIT));
+   * Print("Margin to maintain open orders calculated for 1 lot=", MarketInfo(Symbol(), MODE_MARGINMAINTENANCE));
+   * Print("Hedged margin calculated for 1 lot         =", MarketInfo(Symbol(), MODE_MARGINHEDGED));
+   * Print("Free margin required to open 1 lot for buying=", MarketInfo(Symbol(), MODE_MARGINREQUIRED));
+   * Print("Order freeze level in points                =", MarketInfo(Symbol(), MODE_FREEZELEVEL));
+   * </pre>
    */
   static double MarketInfo(string _symbol, int _type) {
 #ifdef __MQL4__

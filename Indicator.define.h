@@ -1,3 +1,4 @@
+
 //+------------------------------------------------------------------+
 //|                                                EA31337 framework |
 //|                                 Copyright 2016-2021, EA31337 Ltd |
@@ -21,8 +22,8 @@
  */
 
 /**
- * @file
- * Includes Indicator's defines.
+ * @file Indicator.define.h
+ * @brief CGA Leaf include, for Indicator's defines and macro
  */
 
 #ifndef __MQL__
@@ -34,6 +35,20 @@
 #define COMMA ,
 #define SEMICOLON ;
 #define DUMMY
+
+/**
+ * @brief Calls the iCustom function and returns the result.
+ *
+ * This macro is used to call the iCustom function and return the result. It handles the validation of the handle,
+ * checks for errors, and copies the buffer values. If the handle is invalid or an error occurs, it returns the empty value.
+ *
+ * @param SET_HANDLE The code to set the handle if it is invalid.
+ * @param PARAMS The parameters to pass to the iCustom function.
+ *
+ * @return The result of the iCustom function call, or the empty value if an error occurs.
+ * 
+ * \todo Indicator.define.h  grep pour trouver ou ICUSTOM_DEF est utilise dans la codebase (probably to run headless tests).
+ */
 
 #define ICUSTOM_DEF(SET_HANDLE, PARAMS)                                        \
   double _res[];                                                               \
@@ -93,7 +108,16 @@
 #endif
 
 // Forward declarations.
+/**
+ * @brief Forward declaration of the DrawIndicator class.
+ *
+ * This class represents a forward declaration of the DrawIndicator class. It is used to declare the existence of the class
+ * without providing its full definition. The actual implementation of the class can be found elsewhere in the codebase.
+ * 
+ */
 class DrawIndicator;
+
+/** \todo Indicator.define.h trouver les reutilisations possibles de cette forward declaration (class DrawIndicator) dans le codebase. */
 
 #ifndef __MQL__
 //
@@ -104,6 +128,21 @@ class DrawIndicator;
 #define EMPTY_VALUE DBL_MAX
 #endif
 
+
+/**
+ * @brief Calls a built-in indicator method and returns the result.
+ *
+ * This macro is used to call a built-in indicator method and return the result. It handles the validation of the indicator handle,
+ * checks for errors, and copies the buffer values. If the handle is invalid or an error occurs, it returns the empty value.
+ *
+ * @param NATIVE_METHOD_CALL The native method call to be executed.
+ * @param MODE The mode parameter for the CopyBuffer function.
+ * @param SHIFT The shift parameter for the CopyBuffer function.
+ *
+ * @return The result of the indicator method call, or the empty value if an error occurs.
+ * 
+ * \todo  Indicator.define.h grep pour trouver ou ICUSTOM_DEF est utilise dans la codebase (probably to run headless tests).
+ */
 #define INDICATOR_BUILTIN_CALL_AND_RETURN(NATIVE_METHOD_CALL, MODE, SHIFT)                                 \
   int _handle = Object::IsValid(_obj) ? _obj.Get<int>(IndicatorState::INDICATOR_STATE_PROP_HANDLE) : NULL; \
   double _res[];                                                                                           \

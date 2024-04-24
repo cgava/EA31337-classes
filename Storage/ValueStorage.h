@@ -20,7 +20,7 @@
  */
 
 /**
- * @file
+ * @file ValueStorage.h
  * Stores values fetchable and storeable in native arrays or custom data storages.
  */
 
@@ -126,8 +126,8 @@ enum ENUM_IPEAK { IPEAK_LOWEST, IPEAK_HIGHEST };
 #include "IValueStorage.h"
 #include "ValueStorage.accessor.h"
 
-/**
- * Value storage settable/gettable via indexation operator.
+/** @class ValueStorage
+ * @brief Value storage settable/gettable via indexation operator.
  */
 template <typename C>
 class ValueStorage : public IValueStorage {

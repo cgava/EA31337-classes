@@ -24,6 +24,11 @@
 #ifndef SYMBOLINFO_MQH
 #define SYMBOLINFO_MQH
 
+/**
+ * @file SymbolInfo.mqh
+ * @brief Class to provide symbol information.
+ */
+
 // Forward declaration.
 class SymbolInfo;
 
@@ -40,20 +45,21 @@ class SymbolInfo;
 #include "SerializerNode.enum.h"
 
 /**
- * Class to provide symbol information.
+ * @class SymbolInfo
+ * @brief Class to provide symbol information.
  */
 class SymbolInfo : public Object {
  protected:
   // Variables.
-  string symbol;  // Current symbol pair.
-  Log logger;
-  MqlTick last_tick;          // Stores the latest prices of the symbol.
-  ARRAY(MqlTick, tick_data);  // Stores saved ticks.
-  SymbolInfoEntry s_entry;    // Symbol entry.
-  SymbolInfoProp sprops;      // Symbol properties.
-  double pip_size;            // Value of pip size.
-  uint symbol_digits;         // Count of digits after decimal point in the symbol price.
-  // uint pts_per_pip;          // Number of points per pip.
+  string symbol;              ///< Current symbol pair.
+  Log logger;                 ///< Log handler.
+  MqlTick last_tick;          ///< Stores the latest prices of the symbol.
+  ARRAY(MqlTick, tick_data);  ///< Stores saved ticks.
+  SymbolInfoEntry s_entry;    ///< Symbol entry.
+  SymbolInfoProp sprops;      ///< Symbol properties.
+  double pip_size;            ///< Value of pip size.
+  uint symbol_digits;         ///< Count of digits after decimal point in the symbol price.
+  // uint pts_per_pip;        ///< Number of points per pip.
   double volume_precision;
 
  public:

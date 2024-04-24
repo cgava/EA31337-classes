@@ -226,7 +226,7 @@ This class is for storing various type of objects. Here is the example usage:
 
 ### `Dict` class
 
-Use this class to store the values in form of a collective attribute–value pairs,
+Use this class to store the values in form of a collective attribute-value pairs,
 in similar way as [associative arrays](https://en.wikipedia.org/wiki/Associative_array)
 with a [hash table](https://en.wikipedia.org/wiki/Hash_table) work.
 

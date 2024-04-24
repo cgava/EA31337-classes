@@ -29,6 +29,10 @@
 #include "Std.h"
 
 /**
+ * @file Refs.mqh
+ * 
+ * @brief CGA base classes for reference-counted references (Ref and WeakRef).
+ * 
  * For explanation about difference between strong(Ref) and weak(WeakRef) references please look at:
  * @see https://medium.com/@elliotchance/strong-vs-weak-references-70356d37dfd2
  *
@@ -66,6 +70,11 @@
 // Forward class declaration.
 class Dynamic;
 
+
+/**
+ * @class ReferenceCounter
+ * @brief Reference counter class.
+ */
 class ReferenceCounter {
  public:
   /**
@@ -115,7 +124,8 @@ ReferenceCounter* ReferenceCounter::alloc() {
 }
 
 /**
- * Base class for reference-counted objects.
+ * @class Dynamic
+ * @brief Base class for reference-counted objects (Dynamic PTR).
  */
 class Dynamic {
  public:

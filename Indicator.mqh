@@ -79,6 +79,18 @@ double iCustom5(string _symbol, ENUM_TIMEFRAMES _tf, string _name, A _a, B _b, C
 /**
  * Class to deal with indicators.
  */
+
+/**
+ * @file Indicator.mqh
+ * @brief Contains the definition of the Indicator class, which is a subclass of IndicatorBase.
+ */
+
+/**
+ * @class Indicator
+ * @brief Indicator base classe TEMPLATED by the indicator parameters struct.
+ * 
+ * The Indicator class is a subclass of IndicatorBase and provides additional functionality for custom indicators.
+ */
 template <typename TS>
 class Indicator : public IndicatorBase {
  protected:
@@ -144,6 +156,12 @@ class Indicator : public IndicatorBase {
   /**
    * Class constructor.
    */
+  /* @brief Le premier constructeur prend quatre parametres : une reference a un objet TS (_iparams),
+  une reference a un objet IndicatorDataParams (_idparams), un pointeur vers un objet IndicatorData
+  (_indi_src) et un entier (_indi_mode). Le pointeur IndicatorData et l'entier ont des valeurs
+  par defaut de NULL et 0, respectivement. Ce constructeur est probablement utilise lorsque vous
+  avez deja un objet IndicatorData existant que vous voulez utiliser pour initialiser votre nouvel
+  objet Indicator. */
   Indicator(const TS& _iparams, IndicatorBase* _indi_src = NULL, int _indi_mode = 0)
       : IndicatorBase(_iparams.GetTf(), NULL) {
     iparams = _iparams;
@@ -153,10 +171,30 @@ class Indicator : public IndicatorBase {
     }
     Init();
   }
+  
+  /**
+   * @brief Ce constructeur est probablement utilise lorsque vous n'avez pas d'objet IndicatorData existant, mais
+   * que vous voulez specifier un certain cadre temporel pour votre nouvel objet Indicator. 
+   * 
+   * @param _iparams Les parametres de l'indicateur.
+   * @param _tf Le timeframe (periode) de l'indicateur. Par defaut, il est defini sur PERIOD_CURRENT.
+   */
   Indicator(const TS& _iparams, ENUM_TIMEFRAMES _tf = PERIOD_CURRENT) : IndicatorBase(_tf) {
     iparams = _iparams;
     Init();
   }
+
+
+  /**
+   * @brief Ce constructeur est probablement utilise lorsque vous voulez specifier un type
+   * d'indicateur, un decalage et un nom pour votre nouvel objet Indicator, en plus
+   * du cadre temporel. 
+   *
+   * @param _itype Le type d'indicateur.
+   * @param _tf Le timeframe de l'indicateur (par defaut : PERIOD_CURRENT).
+   * @param _shift Le decalage de l'indicateur (par defaut : 0).
+   * @param _name Le nom de l'indicateur (par defaut : "").
+   */
   Indicator(ENUM_INDICATOR_TYPE _itype, ENUM_TIMEFRAMES _tf = PERIOD_CURRENT, int _shift = 0, string _name = "")
       : IndicatorBase(_tf) {
     iparams.SetIndicatorType(_itype);

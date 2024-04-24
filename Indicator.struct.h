@@ -21,8 +21,8 @@
  */
 
 /**
- * @file
- * Includes Indicator's structs.
+ * @file Indicator.struct.h
+ * @brief Includes Indicator's structs.
  */
 
 #ifndef __MQL__
@@ -45,7 +45,8 @@ struct ChartParams;
 #include "SerializerNode.enum.h"
 #include "Storage/ValueStorage.indicator.h"
 
-// Type-less value for IndicatorDataEntryValue structure.
+/** @union IndicatorDataEntryTypelessValue 
+    @brief Type-less value for IndicatorDataEntryValue structure. */
 union IndicatorDataEntryTypelessValue {
   double vdbl;
   float vflt;
@@ -53,7 +54,9 @@ union IndicatorDataEntryTypelessValue {
   long vlong;
 };
 
-// Type-aware value for IndicatorDataEntry class.
+/** @struct IndicatorDataEntryValue
+ *  @brief Type-aware value for IndicatorDataEntry class.
+ */
 struct IndicatorDataEntryValue {
   unsigned char flags;
   IndicatorDataEntryTypelessValue value;
@@ -184,7 +187,8 @@ struct IndicatorDataEntryValue {
   }
 };
 
-/* Structure for indicator data entry. */
+/** @struct IndicatorDataEntry
+ *  @brief Structure for indicator data entry. */
 struct IndicatorDataEntry {
   long timestamp;        // Timestamp of the entry's bar.
   unsigned short flags;  // Indicator entry flags.
@@ -401,27 +405,28 @@ struct IndicatorDataEntry {
   }
 };
 
-/* Structure for indicator parameters. */
+/** @struct IndicatorParams
+ *  @brief  Base struct to store indicators parameters to instantiate Indicator<param> template class */
 struct IndicatorParams {
- public:                            // @todo: Change it to protected.
-  string name;                      // Name of the indicator.
-  int shift;                        // Shift (relative to the current bar, 0 - default).
-  unsigned int max_buffers;         // Max buffers to store.
-  unsigned int max_modes;           // Max supported indicator modes (values per entry).
-  unsigned int max_params;          // Max supported input params.
-  ChartTf tf;                       // Chart's timeframe.
-  ENUM_INDICATOR_TYPE itype;        // Indicator type (e.g. INDI_RSI).
-  ENUM_IDATA_SOURCE_TYPE idstype;   // Indicator's data source type (e.g. IDATA_BUILTIN, IDATA_ICUSTOM).
-  ENUM_IDATA_VALUE_RANGE idvrange;  // Indicator's range value data type.
+ public:                            ///< /todo Change it to protected.
+  string name;                      ///< Name of the indicator.
+  int shift;                        ///< Shift (relative to the current bar, 0 - default).
+  unsigned int max_buffers;         ///< Max buffers to store.
+  unsigned int max_modes;           ///< Max supported indicator modes (values per entry).
+  unsigned int max_params;          ///< Max supported input params.
+  ChartTf tf;                       ///< Chart's timeframe.
+  ENUM_INDICATOR_TYPE itype;        ///< Indicator type (e.g. INDI_RSI).
+  ENUM_IDATA_SOURCE_TYPE idstype;   ///< Indicator's data source type (e.g. IDATA_BUILTIN, IDATA_ICUSTOM).
+  ENUM_IDATA_VALUE_RANGE idvrange;  ///< Indicator's range value data type.
   // ENUM_IDATA_VALUE_TYPE idvtype;    // Indicator's data value type (e.g. TDBL1, TDBL2, TINT1).
-  ENUM_DATATYPE dtype;                  // Type of basic data to store values (DTYPE_DOUBLE, DTYPE_INT).
-  color indi_color;                     // Indicator color.
-  int indi_data_source_id;              // Id of the indicator to be used as data source.
-  int indi_data_source_mode;            // Mode used as input from data source.
-  ARRAY(DataParamEntry, input_params);  // Indicator input params.
-  bool is_draw;                         // Draw active.
-  int draw_window;                      // Drawing window.
-  string custom_indi_name;              // Name of the indicator passed to iCustom() method.
+  ENUM_DATATYPE dtype;                  ///< Type of basic data to store values (DTYPE_DOUBLE, DTYPE_INT).
+  color indi_color;                     ///< Indicator color.
+  int indi_data_source_id;              ///< Id of the indicator to be used as data source.
+  int indi_data_source_mode;            ///< Mode used as input from data source.
+  ARRAY(DataParamEntry, input_params);  ///< Indicator input params.
+  bool is_draw;                         ///< Draw active.
+  int draw_window;                      ///< Drawing window.
+  string custom_indi_name;              ///< Name of the indicator passed to iCustom() method.
  public:
   /* Special methods */
   // Constructor.
@@ -549,16 +554,17 @@ struct IndicatorParams {
   SerializerNodeType Serialize(Serializer &s);
 };
 
-/* Structure for indicator state. */
+/** @struct IndicatorState
+ *  @brief Structure for indicator state. */
 struct IndicatorState {
   enum ENUM_INDICATOR_STATE_PROP {
     INDICATOR_STATE_PROP_HANDLE,
     INDICATOR_STATE_PROP_IS_CHANGED,
     INDICATOR_STATE_PROP_IS_READY,
   };
-  int handle;       // Indicator handle (MQL5 only).
-  bool is_changed;  // Set when params has been recently changed.
-  bool is_ready;    // Set when indicator is ready (has valid values).
+  int handle;       ///< Indicator handle (MQL5 only).
+  bool is_changed;  ///< Set when params has been recently changed.
+  bool is_ready;    ///< Set when indicator is ready (has valid values).
   // Constructor.
   IndicatorState() : handle(INVALID_HANDLE), is_changed(true), is_ready(false) {}
   // Getters.

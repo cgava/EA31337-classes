@@ -21,8 +21,8 @@
  */
 
 /**
- * @file
- * Class to provide chart, timeframe and timeseries operations.
+ * @file Chart.mqh
+ * @brief Class to provide chart, timeframe and timeseries operations.
  *
  * @docs
  * - https://www.mql5.com/en/docs/chart_operations
@@ -70,20 +70,32 @@ double iClose(string _symbol, int _tf, int _shift) {
 #endif
 
 #ifndef __MQL__
+/** @struct MqlRates
+ * @brief Structure for storing time series data, probably to test without MT4 dependency
+ *
+ * MqlRates is a structure defined in the MetaTrader 4 (MT4) and MetaTrader 5 (MT5)
+ * MQL4/MQL5 programming languages. This structure is used to represent a single bar or
+ * candle on a chart in the MetaTrader platform. This structure is commonly used when
+ * working with price data in MetaTrader. For example, you might use it when writing an
+ * Expert Advisor (EA) or a custom indicator. You can access the data for a specific bar
+ * or candle on a chart using the CopyRates function, which fills an array of MqlRates
+ * structures with data.
+ */
 struct MqlRates {
-  datetime time;     // Period start time
-  double open;       // Open price
-  double high;       // The highest price of the period
-  double low;        // The lowest price of the period
-  double close;      // Close price
-  long tick_volume;  // Tick volume
-  int spread;        // Spread
-  long real_volume;  // Trade volume
+  datetime time;     ///< Period start time
+  double open;       ///< Open price
+  double high;       ///< The highest price of the period
+  double low;        ///< The lowest price of the period
+  double close;      ///< Close price
+  long tick_volume;  ///< Tick volume
+  int spread;        ///< Spread
+  long real_volume;  ///< Trade volume
 };
 #endif
 
 /**
- * Class to provide chart, timeframe and timeseries operations.
+ * @class Chart 
+ * @brief Class to provide chart, timeframe and timeseries operations.
  */
 class Chart : public Market {
  protected:

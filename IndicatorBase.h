@@ -21,8 +21,8 @@
  */
 
 /**
- * @file
- * Base interface for Indicator<T> class.
+ * @file IndicatorBase.h
+ * @brief Base interface for Indicator<T> class.
  */
 
 #ifndef __MQL__
@@ -56,23 +56,27 @@ class Chart;
 #include "Util.h"
 
 /**
- * Class to deal with indicators.
+ * @class IndicatorBase
+ * @brief Indicator base classe NOT TEMPLATED
+ * 
+ * \todo Indicator.struct - trouver la difference entre indicatorBase et Indicator
+ * \ingroup Indicators
  */
 class IndicatorBase : public Chart {
  protected:
-  IndicatorState istate;
-  void* mydata;
-  bool is_fed;                                     // Whether calc_start_bar is already calculated.
-  int calc_start_bar;                              // Index of the first valid bar (from 0).
-  DictStruct<int, Ref<IndicatorBase>> indicators;  // Indicators list keyed by id.
-  bool indicator_builtin;
-  ARRAY(ValueStorage<double>*, value_storages);
-  Ref<IndicatorBase> indi_src;  // // Indicator used as data source.
-  int indi_src_mode;            // Mode of source indicator
-  IndicatorCalculateCache<double> cache;
-  ARRAY(WeakRef<IndicatorBase>, listeners);  // List of indicators that listens for events from this one.
-  long last_tick_time;                       // Time of the last Tick() call.
-  int flags;                                 // Flags such as INDI_FLAG_INDEXABLE_BY_SHIFT.
+  IndicatorState istate;                           ///< Indicator state.
+  void* mydata;                                    ///< Custom data.
+  bool is_fed;                                     ///< Whether calc_start_bar is already calculated.
+  int calc_start_bar;                              ///< Index of the first valid bar (from 0).
+  DictStruct<int, Ref<IndicatorBase>> indicators;  ///< Indicators list keyed by id.
+  bool indicator_builtin;                          ///< true if indicator is implementated by MQL builtin functions
+  ARRAY(ValueStorage<double>*, value_storages);    ///< Array of indicator value storages.
+  Ref<IndicatorBase> indi_src;                     ///< Used when other Indicator is used as data source.
+  int indi_src_mode;                               ///< Modes of source indicator
+  IndicatorCalculateCache<double> cache;           ///< Cache for indicator buffers.
+  ARRAY(WeakRef<IndicatorBase>, listeners);        ///< List of indicators that listens for events from this one.
+  long last_tick_time;                             ///< Time of the last Tick() call.
+  int flags;                                       ///< Flags such as INDI_FLAG_INDEXABLE_BY_SHIFT.
 
  public:
   /* Indicator enumerations */

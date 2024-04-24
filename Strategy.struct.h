@@ -21,8 +21,8 @@
  */
 
 /**
- * @file
- * Includes Strategy's structs.
+ * @file Strategy.struct.h
+ * @brief Includes Strategy's structs.
  */
 
 #ifndef __MQL__
@@ -40,42 +40,44 @@
 class Strategy;
 class Trade;
 
-/* Structure for strategy parameters. */
+/** @struct StgParams
+  @brief Structure for strategy parameters.
+  */
 struct StgParams {
   // Strategy config parameters.
-  bool is_enabled;                 // State of the strategy (whether enabled or not).
-  bool is_suspended;               // State of the strategy (whether suspended or not)
-  bool is_boosted;                 // State of the boost feature (to increase lot size).
-  float weight;                    // Weight of the strategy.
-  long order_close_time;           // Order close time in mins (>0) or bars (<0).
-  float order_close_loss;          // Order close loss (in pips).
-  float order_close_profit;        // Order close profit (in pips).
-  int signal_open_method;          // Signal open method.
-  float signal_open_level;         // Signal open level.
-  int signal_open_filter_method;   // Signal open filter method.
-  int signal_open_filter_time;     // Signal open filter time.
-  int signal_open_boost;           // Signal open boost method (for lot size increase).
-  int signal_close_method;         // Signal close method.
-  float signal_close_level;        // Signal close level.
-  int signal_close_filter_method;  // Signal close filter method.
-  int signal_close_filter_time;    // Signal close filter method.
-  int price_profit_method;         // Price profit method.
-  float price_profit_level;        // Price profit level.
-  int price_stop_method;           // Price stop method.
-  float price_stop_level;          // Price stop level.
-  int tick_filter_method;          // Tick filter.
-  float trend_threshold;           // Trend strength threshold.
-  float lot_size;                  // Lot size to trade.
-  float lot_size_factor;           // Lot size multiplier factor.
-  float max_risk;                  // Maximum risk to take (1.0 = normal, 2.0 = 2x).
-  float max_spread;                // Maximum spread to trade (in pips).
-  int tp_max;                      // Hard limit on maximum take profit (in pips).
-  int sl_max;                      // Hard limit on maximum stop loss (in pips).
-  int type;                        // Strategy type (@see: ENUM_STRATEGY).
-  long id;                         // Unique identifier of the strategy.
-  datetime refresh_time;           // Order refresh frequency (in sec).
-  short shift;                     // Shift (relative to the current bar, 0 - default)
-  ChartTf tf;                      // Main timeframe where strategy operates on.
+  bool is_enabled;                 ///< State of the strategy (whether enabled or not).
+  bool is_suspended;               ///< State of the strategy (whether suspended or not)
+  bool is_boosted;                 ///< State of the boost feature (to increase lot size).
+  float weight;                    ///< Weight of the strategy.
+  long order_close_time;           ///< Order close time in mins (>0) or bars (<0).
+  float order_close_loss;          ///< Order close loss (in pips).
+  float order_close_profit;        ///< Order close profit (in pips).
+  int signal_open_method;          ///< Signal open method.
+  float signal_open_level;         ///< Signal open level.
+  int signal_open_filter_method;   ///< Signal open filter method.
+  int signal_open_filter_time;     ///< Signal open filter time.
+  int signal_open_boost;           ///< Signal open boost method (for lot size increase).
+  int signal_close_method;         ///< Signal close method.
+  float signal_close_level;        ///< Signal close level.
+  int signal_close_filter_method;  ///< Signal close filter method.
+  int signal_close_filter_time;    ///< Signal close filter method.
+  int price_profit_method;         ///< Price profit method.
+  float price_profit_level;        ///< Price profit level.
+  int price_stop_method;           ///< Price stop method.
+  float price_stop_level;          ///< Price stop level.
+  int tick_filter_method;          ///< Tick filter.
+  float trend_threshold;           ///< Trend strength threshold.
+  float lot_size;                  ///< Lot size to trade.
+  float lot_size_factor;           ///< Lot size multiplier factor.
+  float max_risk;                  ///< Maximum risk to take (1.0 = normal, 2.0 = 2x).
+  float max_spread;                ///< Maximum spread to trade (in pips).
+  int tp_max;                      ///< Hard limit on maximum take profit (in pips).
+  int sl_max;                      ///< Hard limit on maximum stop loss (in pips).
+  int type;                        ///< Strategy type (@see: ENUM_STRATEGY).
+  long id;                         ///< Unique identifier of the strategy.
+  datetime refresh_time;           ///< Order refresh frequency (in sec).
+  short shift;                     ///< Shift (relative to the current bar, 0 - default)
+  ChartTf tf;                      ///< Main timeframe where strategy operates on.
   // Constructor.
   StgParams()
       : id(rand()),
@@ -368,23 +370,29 @@ struct StgParams {
   }
 } stg_params_defaults;
 
-/* Structure for strategy's param values. */
+/** @struct Stg_Params
+ * @brief Structure for strategy's param values.
+ * 
+ * /todo what is the difference between Stg_Params and StgParams?
+ * */
 struct Stg_Params {
   string symbol;
   ENUM_TIMEFRAMES tf;
   Stg_Params() : symbol(_Symbol), tf((ENUM_TIMEFRAMES)_Period) {}
 };
 
-/* Structure for strategy's process results. */
+/** @struct StgProcessResult
+ * @brief Structure for strategy's process results. 
+ * */
 struct StgProcessResult {
-  float boost_factor;                  // Boost factor used.
-  float lot_size;                      // Lot size used.
-  unsigned int last_error;             // Last error code.
-  unsigned short pos_updated;          // Number of positions updated.
-  unsigned short stops_invalid_sl;     // Number of invalid stop-loss values.
-  unsigned short stops_invalid_tp;     // Number of invalid take-profit values.
-  unsigned short tasks_processed;      // Task processed.
-  unsigned short tasks_processed_not;  // Task not processed.
+  float boost_factor;                  ///< Boost factor used.
+  float lot_size;                      ///< Lot size used.
+  unsigned int last_error;             ///< Last error code.
+  unsigned short pos_updated;          ///< Number of positions updated.
+  unsigned short stops_invalid_sl;     ///< Number of invalid stop-loss values.
+  unsigned short stops_invalid_tp;     ///< Number of invalid take-profit values.
+  unsigned short tasks_processed;      ///< Task processed.
+  unsigned short tasks_processed_not;  ///< Task not processed.
   // Struct constructor.
   StgProcessResult() { Reset(); }
   // Getters.

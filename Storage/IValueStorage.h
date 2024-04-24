@@ -20,8 +20,8 @@
  */
 
 /**
- * @file
- * Value storage interface.
+ * @file IValueStorage.h
+ * @brief Value storage interface.
  */
 
 #ifndef __MQL__
@@ -29,6 +29,9 @@
 #pragma once
 #endif
 
+/** @class IValueStorage
+ *  Value storage interface.
+*/
 class IValueStorage {
  public:
   /**

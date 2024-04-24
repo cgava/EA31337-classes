@@ -84,7 +84,7 @@ struct IndiBandsParams : IndicatorParams {
 };
 
 /**
- * Implements the Bollinger Bands® indicator.
+ * Implements the Bollinger Bands(R) indicator.
  */
 class Indi_Bands : public IndicatorTickSource<IndiBandsParams> {
  public:

@@ -82,8 +82,16 @@ class Trade;
 #define OINPUT static
 #endif
 
+
 /**
- * Implements strategy class.
+ * @file Strategy.mqh
+ * @brief Implements strategy class.
+ */
+
+/** @class Strategy
+ *  @brief Implements strategy class.
+ * 
+ *  /todo define the goal of the strategy class, what's its purpose, how it should be used, etc, etc...
  */
 class Strategy : public Object {
  public:

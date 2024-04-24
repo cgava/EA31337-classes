@@ -20,6 +20,11 @@
  *
  */
 
+/**
+ * @file Indi_MA.mqh
+ * @brief CGA contains implementation of a basic Moving Average indicator.
+ */
+
 // Prevents processing this includes file for the second time.
 #ifndef INDI_MA_MQH
 #define INDI_MA_MQH
@@ -65,6 +70,15 @@ struct IndiMAParams : IndicatorParams {
     SetDataValueRange(IDATA_RANGE_PRICE);
     SetCustomIndicatorName("Examples\\Moving Average");
   };
+
+  /** @brief Copy constructor with another time frame
+   * This constructor allows you to create a new IndiMAParams object that has the same
+   * values as an existing IndiMAParams object, but with a potentially different time frame.
+   * 
+   * @param _params - the source parameters
+   * @param _tf - the time frame
+   */
+  
   IndiMAParams(IndiMAParams &_params, ENUM_TIMEFRAMES _tf) {
     THIS_REF = _params;
     tf = _tf;
@@ -126,8 +140,12 @@ class Indi_MA : public IndicatorTickSource<IndiMAParams> {
   /**
    * Calculates MA on another indicator.
    */
-  static double iMAOnIndicator(IndicatorCalculateCache<double> *cache, IndicatorBase *_indi, int indi_mode,
-                               string symbol, ENUM_TIMEFRAMES tf, unsigned int ma_period, unsigned int ma_shift,
+  static double iMAOnIndicator(IndicatorCalculateCache<double> *cache, 
+                               IndicatorBase *_indi, int indi_mode,
+                               string symbol,
+                               ENUM_TIMEFRAMES tf,
+                               unsigned int ma_period,
+                               unsigned int ma_shift,
                                ENUM_MA_METHOD ma_method,  // (MT4/MT5): MODE_SMA, MODE_EMA, MODE_SMMA, MODE_LWMA
                                int shift = 0) {
     return iMAOnArray(_indi.GetValueStorage(indi_mode), 0, ma_period, ma_shift, ma_method, shift, cache);

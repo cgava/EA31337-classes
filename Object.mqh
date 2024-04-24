@@ -28,6 +28,11 @@
 #define nullptr NULL
 #endif
 
+/**
+ * @file Object.mqh
+ * @brief Object class to deal with objects.
+*/
+
 // Includes.
 #include "Refs.mqh"
 #include "String.mqh"
@@ -38,9 +43,9 @@
 // - https://docs.mql4.com/constants/namedconstants/enum_pointer_type
 // - https://www.mql5.com/en/docs/constants/namedconstants/enum_pointer_type
 enum ENUM_POINTER_TYPE {
-  POINTER_INVALID,   // Incorrect pointer.
-  POINTER_DYNAMIC,   // Pointer of the object created by the new() operator.
-  POINTER_AUTOMATIC  // Pointer of any objects created automatically (not using new()).
+  POINTER_INVALID,   ///< Incorrect pointer.
+  POINTER_DYNAMIC,   ///< Pointer of the object created by the new() operator.
+  POINTER_AUTOMATIC  ///< Pointer of any objects created automatically (not using new()).
 };
 #endif
 
@@ -51,8 +56,8 @@ class Object : public Dynamic {
 
   protected:
 
-    void *obj;
-    long id;
+    void *obj; ///< Object handler.
+    long id;   ///< ID of the object.
 
   public:
 

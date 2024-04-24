@@ -21,15 +21,17 @@
  */
 
 /**
- * @file
- * Includes Market's structs.
+ * @file Market.struct.h
+ * @brief Includes Market's structs.
  */
 
 // Includes.
 #include "DateTime.struct.h"
 #include "Std.h"
 
-// Structure for trade time static methods.
+/** @struct MarketTimeForex
+ *  @brief  Class to compute Market sessions for trading Forex.
+*/
 struct MarketTimeForex : DateTimeEntry {
   // Market sessions for trading Forex.
   enum ENUM_MARKET_TIME_FOREX_HOURS {
