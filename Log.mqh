@@ -67,13 +67,24 @@ class Log : public Object {
   int last_entry;
   datetime last_flush;
   ENUM_LOG_LEVEL log_level;
+  bool flushOnAdd;
+  bool saveToFileOnAdd;
+  int flushDelay;
 
  public:
   /**
    * Class constructor.
    */
-  Log(ENUM_LOG_LEVEL _log_level = V_INFO, string new_filename = "")
-      : last_entry(-1), last_flush(0), log_level(_log_level), filename(new_filename != "" ? new_filename : "Log.txt") {}
+  Log(ENUM_LOG_LEVEL _log_level = V_INFO, string new_filename = "", bool _flushOnAdd = false, bool _saveToFileOnAdd = false, int _flushDelay = 0)
+      : last_entry(-1), last_flush(0), log_level(_log_level), filename(new_filename != "" ? new_filename : "Log.txt"),
+        flushOnAdd(_flushOnAdd), saveToFileOnAdd(_saveToFileOnAdd), flushDelay(_flushDelay) {}
+
+  int GetFlushDelay() { return flushDelay; } ///< Get the value of flushDelay.
+  void SetFlushDelay(int value) { flushDelay = value; } ///< Set the value of flushDelay.
+  bool GetFlushOnAdd() { return flushOnAdd; } ///< Get the value of flushOnAdd.
+  bool GetSaveToFileOnAdd() { return saveToFileOnAdd; } ///< Get the value of writeFileOnAdd.
+  void SetFlushOnAdd(bool value) { flushOnAdd = value; } ///< Set the value of flushOnAdd.
+  void SetSaveToFileOnAdd(bool value) { saveToFileOnAdd = value; } ///< Set the value of writeFileOnAdd.
 
   /**
    * Class deconstructor.
@@ -159,31 +170,6 @@ class Log : public Object {
   bool AddLastError(string prefix, long suffix);
 
   /**
-   * Reports an error.
-   */
-  bool Error(string msg, string prefix = "", string suffix = "") { return Add(V_ERROR, msg, prefix, suffix); }
-
-  /**
-   * Reports a warning.
-   */
-  bool Warning(string msg, string prefix = "", string suffix = "") { return Add(V_WARNING, msg, prefix, suffix); }
-
-  /**
-   * Reports an info message.
-   */
-  bool Info(string msg, string prefix = "", string suffix = "") { return Add(V_INFO, msg, prefix, suffix); }
-
-  /**
-   * Reports a debug message for debugging purposes.
-   */
-  bool Debug(string msg, string prefix = "", string suffix = "") { return Add(V_DEBUG, msg, prefix, suffix); }
-
-  /**
-   * Reports a debug message for debugging purposes.
-   */
-  bool Trace(string msg, string prefix = "", string suffix = "") { return Add(V_TRACE, msg, prefix, suffix); }
-
-  /**
    * Link this instance with another log instance.
    */
   void Link(Log *_log) {
@@ -253,6 +239,40 @@ class Log : public Object {
     last_flush = TimeCurrent();
   }
 
+
+/**
+ * Flushes all log entries by printing them to the output.
+ */
+#ifdef __MQL__
+  template <>
+#endif
+  void FlushAndSaveToFile(bool _dt = false) {
+    if (flushDelay > 0 && last_flush + flushDelay >= TimeCurrent()) {
+      // Avoids flushing logs too often.
+      return;
+    }
+    int handle = FileOpen(filename, FILE_WRITE | FILE_CSV | FILE_READ, ':'); 
+    if (handle != INVALID_HANDLE) {
+      FileSeek(handle, 0, SEEK_END);
+      for (int i = 0; i <= last_entry; i++) {
+        Print((_dt ? DateTimeStatic::TimeToStr(data[i].timestamp) + ": " : ""), data[i].msg);
+        FileWrite(handle, TimeToString(data[i].timestamp, TIME_DATE | TIME_MINUTES), ": ", data[i].msg);
+      }
+      // Flush logs from another linked instances.
+      for (DictStructIterator<int, Ref<Log>> _li = logs.Begin(); _li.IsValid(); ++_li) {
+        Log *_log = _li.Value().Ptr();
+        if (Object::IsValid(_log)) {
+          PTR_ATTRIB(_log, Flush());
+        }
+      }
+      FileClose(handle);
+      last_entry = -1;
+      last_flush = TimeCurrent();
+    } else {
+      FileClose(handle);
+    }
+  }
+
   /**
    * Flushes all log entries by printing them to the output.
    */
@@ -288,12 +308,14 @@ class Log : public Object {
    */
   bool SaveToFile(string new_filename, ENUM_LOG_LEVEL _log_level) {
     string filepath = new_filename != "" ? new_filename : filename;
-    int handle = FileOpen(filepath, FILE_WRITE | FILE_CSV, ':');
+    int handle = FileOpen(filepath, FILE_WRITE | FILE_CSV | FILE_READ, ':'); 
     if (handle != INVALID_HANDLE) {
-      for (int i = 0; i < ArraySize(data); i++) {
-        if (data[i].log_level <= _log_level) {
-          FileWrite(handle, TimeToString(data[i].timestamp, TIME_DATE | TIME_MINUTES), ": ", data[i].msg);
-        }
+      // Se positionner à la fin du fichier
+      FileSeek(handle, 0, SEEK_END);
+      for (int i = 0; i < last_entry+1; i++) { //ArraySize(data)
+          if (data[i].log_level <= _log_level) {
+              FileWrite(handle, TimeToString(data[i].timestamp, TIME_DATE | TIME_MINUTES), ": ", data[i].msg);
+          }
       }
       FileClose(handle);
       return true;
@@ -327,6 +349,83 @@ class Log : public Object {
     }
     return false;
   }
+
+    /**
+   * Reports an error.
+   */
+  bool Error(string msg, string prefix = "", string suffix = "") {
+    bool result = Add(V_ERROR, msg, prefix, suffix);
+    if (saveToFileOnAdd) {
+      FlushAndSaveToFile();
+      // SaveToFile();
+      // Flush();
+    } else if (flushOnAdd) {
+      Flush();
+    }
+    return result;
+  }
+
+
+    /**
+   * Reports an warning.
+   */
+  bool Warning(string msg, string prefix = "", string suffix = "") {
+    bool result = Add(V_WARNING, msg, prefix, suffix);
+    if (saveToFileOnAdd) {
+      FlushAndSaveToFile();
+      // SaveToFile();
+      // Flush();
+    } else if (flushOnAdd) {
+      Flush();
+    }
+    return result;
+  }
+
+    /**
+   * Reports an info.
+   */
+  bool Info(string msg, string prefix = "", string suffix = "") {
+    bool result = Add(V_INFO, msg, prefix, suffix);
+    if (saveToFileOnAdd) {
+      FlushAndSaveToFile();
+      // SaveToFile();
+      // Flush();
+    } else if (flushOnAdd) {
+      Flush();
+    }
+    return result;
+  }
+
+    /**
+   * Reports an debug.
+   */
+  bool Debug(string msg, string prefix = "", string suffix = "") {
+    bool result = Add(V_DEBUG, msg, prefix, suffix);
+    if (saveToFileOnAdd) {
+      FlushAndSaveToFile();
+      // SaveToFile();
+      // Flush();
+    } else if (flushOnAdd) {
+      Flush();
+    }
+    return result;
+  }
+
+    /**
+   * Reports an trace.
+   */
+  bool Trace(string msg, string prefix = "", string suffix = "") {
+    bool result = Add(V_TRACE, msg, prefix, suffix);
+    if (saveToFileOnAdd) {
+      FlushAndSaveToFile();
+      // SaveToFile();
+      // Flush();
+    } else if (flushOnAdd) {
+      Flush();
+    }
+    return result;
+  }
+
 };
 
 #include "Terminal.mqh"
@@ -340,5 +439,44 @@ bool Log::AddLastError(string prefix, string suffix) {
 bool Log::AddLastError(string prefix, long suffix) {
   return Add(V_ERROR, Terminal::GetLastErrorText(), prefix, StringFormat("%d", suffix));
 }
+
+
+/**
+ * @class LogS
+ * @brief Singleton class for Log.
+ * @note This class is not thread-safe.
+ * \bug Probable bug when multiple EA write logs in the same file
+ * \todo Manage weak/strong ref counter to avoid memory leaks (and Make this class thread-safe ?)
+ */
+class LogS {
+private:
+  static Log* instance;
+
+public:
+  /**
+   * Get the singleton instance of Log.
+   */
+  static Log* Get(ENUM_LOG_LEVEL _log_level = V_INFO, string new_filename = "") {
+    if (instance == NULL) {
+      instance = new Log(_log_level, new_filename);
+    }
+    return instance;
+  }
+  
+  /**
+   * Delete the singleton instance of Log.
+   */
+  static void Delete() {
+    if (instance != NULL) {
+      delete instance;
+      instance = NULL;
+    } else {
+      Print("Log instance is NULL ", __FUNCTION_LINE__);
+    }
+  }
+  
+};
+
+Log* LogS::instance = NULL;
 
 #endif
