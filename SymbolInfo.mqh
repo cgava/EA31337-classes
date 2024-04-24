@@ -52,7 +52,7 @@ class SymbolInfo : public Object {
  protected:
   // Variables.
   string symbol;              ///< Current symbol pair.
-  Log logger;                 ///< Log handler.
+  Log* logger;                 ///< Log handler.
   MqlTick last_tick;          ///< Stores the latest prices of the symbol.
   ARRAY(MqlTick, tick_data);  ///< Stores saved ticks.
   SymbolInfoEntry s_entry;    ///< Symbol entry.
@@ -77,6 +77,7 @@ class SymbolInfo : public Object {
     if (StringLen(symbol) == 0) {
       symbol = _Symbol;
     }
+    logger=LogS::Get();
   }
 
   ~SymbolInfo() {}
@@ -554,6 +555,6 @@ class SymbolInfo : public Object {
   /**
    * Returns Log handler.
    */
-  Log *GetLogger() { return GetPointer(logger); }
+  Log *GetLogger() { return logger; }
 };
 #endif  // SYMBOLINFO_MQH

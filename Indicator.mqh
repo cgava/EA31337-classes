@@ -1134,9 +1134,13 @@ class Indicator : public IndicatorBase {
     ResetLastError();
     int _ishift = _index >= 0 ? _index : iparams.GetShift();
     long _bar_time = GetBarTime(_ishift);
-    IndicatorDataEntry _entry = idata.GetByKey(_bar_time);
+    GetLogger().Trace(StringFormat("Retrieving _ishift: %d, _bar_time: %ld ", _ishift, _bar_time), __FUNCTION_LINE__);     
+    IndicatorDataEntry _entry = idata.GetByKey(_bar_time); //<c'est ici la clef : on recherche si la donnee existe, sur la base d'une date absolue, et pas d'une position relative par rapport a la barre courante
+   
+    /// CGA /todo not understand why we don't enter each tick - seems each minute only, or each bar end ?
+    /// CGA /todo can we process the current bar also ?
     if (_bar_time > 0 && !_entry.IsValid() && !_entry.CheckFlag(INDI_ENTRY_FLAG_INSUFFICIENT_DATA)) {
-      _entry.Resize(iparams.GetMaxModes());
+      _entry.Resize(iparams.GetMaxModes()); ///< rappel le max_mode est le nombre de valeur produites par l'indicateur
       _entry.timestamp = GetBarTime(_ishift);
 #ifndef __MQL4__
       if (IndicatorBase::Get<bool>(STRUCT_ENUM(IndicatorState, INDICATOR_STATE_PROP_IS_CHANGED))) {
@@ -1183,6 +1187,11 @@ class Indicator : public IndicatorBase {
       } else {
         _entry.AddFlags(INDI_ENTRY_FLAG_INSUFFICIENT_DATA);
       }
+    GetLogger().Trace(StringFormat("Entry timestamp: %d, Array size: %d, IsValid: %s",
+                             _entry.timestamp,
+                             _entry.GetSize(),
+                             _entry.IsValid() ? "true" : "false"),
+                             __FUNCTION_LINE__);
     }
     if (_LastError != ERR_NO_ERROR) {
       istate.is_ready = false;

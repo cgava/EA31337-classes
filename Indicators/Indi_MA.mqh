@@ -737,6 +737,11 @@ class Indi_MA : public IndicatorTickSource<IndiMAParams> {
       case IDATA_BUILTIN:
         _value = Indi_MA::iMA(GetSymbol(), GetTf(), GetPeriod(), GetMAShift(), GetMAMethod(), GetAppliedPrice(),
                               _ishift, THIS_PTR);
+        GetLogger().Trace(StringFormat("IDATA_BUILTIN Mode: %d, Value: %lf, shift: %d",
+                          _mode,
+                          _value,
+                          _shift),
+                          __FUNCTION_LINE__);
         break;
       case IDATA_ICUSTOM:
         _value = iCustom(istate.handle, GetSymbol(), GetTf(), iparams.custom_indi_name, /* [ */ GetPeriod(),

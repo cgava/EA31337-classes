@@ -256,7 +256,7 @@ class Log : public Object {
       FileSeek(handle, 0, SEEK_END);
       for (int i = 0; i <= last_entry; i++) {
         Print((_dt ? DateTimeStatic::TimeToStr(data[i].timestamp) + ": " : ""), data[i].msg);
-        FileWrite(handle, TimeToString(data[i].timestamp, TIME_DATE | TIME_MINUTES), ": ", data[i].msg);
+        FileWrite(handle, TimeToString(data[i].timestamp, TIME_DATE | TIME_SECONDS), ": ", data[i].msg);
       }
       // Flush logs from another linked instances.
       for (DictStructIterator<int, Ref<Log>> _li = logs.Begin(); _li.IsValid(); ++_li) {
